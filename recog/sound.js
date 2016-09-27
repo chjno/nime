@@ -58,37 +58,42 @@ function getRandomColor() {
   return color;
 }
 
-var chars = [];
+var array = [];
 
-function genBeat(string) {
-  chars = string.split('');
-  pattern.values = chars;
+function genBeat(array) {
+  // console.log(array);
+  pattern.values = array;
   pattern.start();
 }
 
 var pattern = new Tone.Pattern(function(time, note){
-  finalSpans[this.index].style.color = 'peru';
+  // console.log(note);
   if (this.index == 0) {
     finalSpans[finalSpans.length - 1].style.color = 'black';
   } else {
     finalSpans[this.index - 1].style.color = 'black';
   }
-  if (dict.hasOwnProperty(note)) {
-    tap.start();
-  } else if (note.match(/[.,\/#!$%\^&\*;:{}=\-_`'~()]/) != null) {
-    hihat.start();
-  } else if (note == ' ') {
-
-  } else if (note == note.toUpperCase()) {
-    bass.start();
+  switch (note) {
+    case 'Noun':
+      bass.start();
+      finalSpans[this.index].style.color = 'CornflowerBlue ';
+      break;
+    case 'Verb':
+      tap.start();
+      finalSpans[this.index].style.color = 'chartreuse';
+      break;
+    case 'Other':
+      hihat.start();
+      finalSpans[this.index].style.color = 'orange';
+      break;
   }
-  // console.log(note);
-}, chars);
+}, array);
 pattern.interval = '4n'
 
 var notes = [];
 
 function genNotes(string) {
+  console.log('string ' + string);
   if (string != '') {
     notes = string.split('');
     // for (var i = 0; i < string.length; i++) {
@@ -98,8 +103,8 @@ function genNotes(string) {
     pattern2.values = notes;
     pattern2.start();
   } else {
-    pattern2.stop();
-    synth.triggerRelease(synth.now());
+    // pattern2.stop();
+    // synth.triggerRelease(synth.now());
   }
 }
 
@@ -117,4 +122,4 @@ var pattern2 = new Tone.Pattern(function(time, note){
   }
   // console.log(note);
 }, notes);
-pattern2.interval = '16n'
+pattern2.interval = '8n'

@@ -1,3 +1,9 @@
+var nlp = window.nlp_compromise
+
+
+
+
+
 socket.on('sentiment', function(obj) {
   // console.log(obj);
 });
@@ -43,15 +49,34 @@ if (!('webkitSpeechRecognition' in window)) {
       for (var j = 0; j < finalSpans.length; j++) {
         results.removeChild(finalSpans[j]);
       }
+
+      var nlpObj = nlp.sentence(final_transcript);
+      finalSplit = [];
+      finalPos = [];
+      for (var m = 0; m < nlpObj.terms.length; m++) {
+        finalSplit.push(nlpObj.terms[m].text);
+        if ('Noun' in nlpObj.terms[m].pos) {
+          finalPos.push('Noun');
+        } else if ('Verb' in nlpObj.terms[m].pos) {
+          finalPos.push('Verb');
+        } else {
+          finalPos.push('Other');
+        }
+      }
+
+      // console.log(nlpObj);
+      // console.log(finalSplit);
+      // console.log(finalPos);
+
       finalSpans = [];
-      for (var i = 0; i < final_transcript.length; i++) {
+      for (var i = 0; i < finalSplit.length; i++) {
         var span = document.createElement('span');
         span.className = 'final';
-        span.innerHTML = final_transcript[i];
+        span.innerHTML = finalSplit[i];
         finalSpans.push(span);
         results.insertBefore(span, divider);
       }
-      genBeat(final_transcript);
+      genBeat(finalPos);
       newFinal = false;
     }
 
@@ -74,8 +99,8 @@ if (!('webkitSpeechRecognition' in window)) {
         }
         genNotes(interim_transcript);
       } else {
-        pattern2.stop();
-        synth.triggerRelease(synth.now());
+        // pattern2.stop();
+        // synth.triggerRelease(synth.now());
       }
       // console.log(interimSplit);
       // console.log(interimSpans);
