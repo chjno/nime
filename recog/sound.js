@@ -16,6 +16,10 @@ var bass = new Tone.Player({
   "retrigger": true
 }).toMaster();
 
+var synth = new Tone.Synth({
+
+}).toMaster();
+
 var dict = {
   'a': 'C2',
   'b': 'D2',
@@ -45,16 +49,25 @@ var dict = {
   'z': 'G5'
 }
 
-var notes = [];
+function getRandomColor() {
+  var letters = '0123456789ABCDEF';
+  var color = '#';
+  for (var i = 0; i < 6; i++ ) {
+      color += letters[Math.floor(Math.random() * 16)];
+  }
+  return color;
+}
 
-function genNotes(string) {
-  notes = string.split('');
-  pattern.values = notes;
+var chars = [];
+
+function genBeat(string) {
+  chars = string.split('');
+  pattern.values = chars;
   pattern.start();
 }
 
 var pattern = new Tone.Pattern(function(time, note){
-  finalSpans[this.index].style.color = 'red';
+  finalSpans[this.index].style.color = 'peru';
   if (this.index == 0) {
     finalSpans[finalSpans.length - 1].style.color = 'black';
   } else {
@@ -70,5 +83,38 @@ var pattern = new Tone.Pattern(function(time, note){
     bass.start();
   }
   // console.log(note);
+}, chars);
+pattern.interval = '4n'
+
+var notes = [];
+
+function genNotes(string) {
+  if (string != '') {
+    notes = string.split('');
+    // for (var i = 0; i < string.length; i++) {
+    //   notes.push(dict[string[i]]);
+    // }
+    // console.log(notes);
+    pattern2.values = notes;
+    pattern2.start();
+  } else {
+    pattern2.stop();
+    synth.triggerRelease(synth.now());
+  }
+}
+
+var pattern2 = new Tone.Pattern(function(time, note){
+  if (interimSpans.length > 0) {
+    interimSpans[this.index].style.color = getRandomColor();
+    if (this.index == 0) {
+      interimSpans[interimSpans.length - 1].style.color = 'gray';
+    } else {
+      interimSpans[this.index - 1].style.color = 'gray';
+    }
+  }
+  if (dict.hasOwnProperty(note)) {
+    synth.triggerAttackRelease(dict[note]);
+  }
+  // console.log(note);
 }, notes);
-pattern.interval = '2n'
+pattern2.interval = '16n'

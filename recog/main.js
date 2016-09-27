@@ -3,6 +3,7 @@ socket.on('sentiment', function(obj) {
 });
 
 var finalSpans = [];
+var interimSpans = [];
 
 if (!('webkitSpeechRecognition' in window)) {
   alert("webkitSpeechRecognition isn't here");
@@ -15,21 +16,25 @@ if (!('webkitSpeechRecognition' in window)) {
   recog.onstart = function() {}
   recog.onresult = function(event) {
     // console.log(event);
-    var interim_transcript = '';
+    interim_transcript = '';
     var newFinal = false;
+    var newInterim = false;
     var finalHTML = '';
 
     for (var i = event.resultIndex; i < event.results.length; ++i) {
       if (event.results[i].isFinal) {
         final_transcript = event.results[i][0].transcript.trim() + ' ';
+        interim_transcript = '';
         newFinal = true;
+        newInterim = true;
       } else {
         interim_transcript += event.results[i][0].transcript.trim() + ' ';
+        newInterim = true;
       }
     }
     final_transcript = capitalize(final_transcript);
     // final_span.innerHTML = linebreak(final_transcript);
-    interim_span.innerHTML = linebreak(interim_transcript);
+    // interim_span.innerHTML = linebreak(interim_transcript);
 
 
     if (newFinal) {
@@ -44,10 +49,38 @@ if (!('webkitSpeechRecognition' in window)) {
         span.className = 'final';
         span.innerHTML = final_transcript[i];
         finalSpans.push(span);
-        results.insertBefore(span, interim_span);
+        results.insertBefore(span, divider);
       }
-      genNotes(final_transcript);
+      genBeat(final_transcript);
       newFinal = false;
+    }
+
+    if (newInterim) {
+      socket.emit('new interim', interim_transcript);
+
+      for (var k = 0; k < interimSpans.length; k++) {
+        results.removeChild(interimSpans[k]);
+      }
+      interimSpans = [];
+      // interimSplit = interim_transcript.split(' ');
+      if (interim_transcript != '') {
+        interimSplit = interim_transcript.trim().match(/(?=\S*['-])([a-zA-Z'-]+)|\w+|\W/g);
+        for (var l = 0; l < interim_transcript.length; l++) {
+          var span = document.createElement('span');
+          span.className = 'interim';
+          span.innerHTML = interim_transcript[l];
+          interimSpans.push(span);
+          results.appendChild(span);
+        }
+        genNotes(interim_transcript);
+      } else {
+        pattern2.stop();
+        synth.triggerRelease(synth.now());
+      }
+      // console.log(interimSplit);
+      // console.log(interimSpans);
+  
+      newInterim = false;
     }
   };
   recog.onerror = function(event) {}
