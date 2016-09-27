@@ -66,25 +66,47 @@ function genBeat(array) {
   pattern.start();
 }
 
-var pattern = new Tone.Pattern(function(time, note){
-  // console.log(note);
-  if (this.index == 0) {
-    finalSpans[finalSpans.length - 1].style.color = 'black';
-  } else {
-    finalSpans[this.index - 1].style.color = 'black';
+function colorClass(arr, index, color) {
+  for (var i = 0; i < arr[index].length; i++) {
+    arr[index][i].style.color = color;
   }
-  switch (note) {
+
+  if (index > 0) {
+    // console.log(arr[index - 1]);
+    // for (var j = 0; j < arr[index - 1].length; j++) {
+    //   arr[index - 1][i].style.color = 'black';
+    // }
+  }
+
+  // if (index == 0) {
+  //   for (var j = 0; j < obj[obj.length - 1].length; j++) {
+  //     obj[index][i].style.color = 'black';
+  //   }  
+  // } else {
+  //   for (var j = 0; j < obj[index - 1].length; j++) {
+  //     obj[index][i].style.color = 'black';
+  //   }
+  // }
+}
+
+var pattern = new Tone.Pattern(function(time, note){
+  if (this.index == 0) {
+    colorClass(finalWordSpans, finalWordSpans.length - 1, 'black');
+  } else {
+    colorClass(finalWordSpans, this.index - 1, 'black');
+  }
+  switch (note[0]) {
     case 'Noun':
       bass.start();
-      finalSpans[this.index].style.color = 'CornflowerBlue ';
+      colorClass(finalWordSpans, this.index, 'cornflowerblue');
       break;
     case 'Verb':
       tap.start();
-      finalSpans[this.index].style.color = 'chartreuse';
+      colorClass(finalWordSpans, this.index, 'chartreuse');
       break;
     case 'Other':
       hihat.start();
-      finalSpans[this.index].style.color = 'orange';
+      colorClass(finalWordSpans, this.index, 'orange');
       break;
   }
 }, array);
@@ -93,7 +115,7 @@ pattern.interval = '4n'
 var notes = [];
 
 function genNotes(string) {
-  console.log('string ' + string);
+  // console.log('string ' + string);
   if (string != '') {
     notes = string.split('');
     // for (var i = 0; i < string.length; i++) {
@@ -110,11 +132,21 @@ function genNotes(string) {
 
 var pattern2 = new Tone.Pattern(function(time, note){
   if (interimSpans.length > 0) {
-    interimSpans[this.index].style.color = getRandomColor();
+    // interimSpans[this.index].style.color = getRandomColor();
+    interimSpans[this.index].style.color = 'red';
     if (this.index == 0) {
       interimSpans[interimSpans.length - 1].style.color = 'gray';
     } else {
       interimSpans[this.index - 1].style.color = 'gray';
+    }
+  } else {
+    // console.log(finalSpans[this.index]);
+    // finalSpans[this.index].style.color = getRandomColor();
+    finalSpans[this.index].style.color = 'red';
+    if (this.index == 0) {
+      finalSpans[finalSpans.length - 1].style.color = 'black';
+    } else {
+      finalSpans[this.index - 1].style.color = 'black';
     }
   }
   if (dict.hasOwnProperty(note)) {

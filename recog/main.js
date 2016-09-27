@@ -9,6 +9,7 @@ socket.on('sentiment', function(obj) {
 });
 
 var finalSpans = [];
+var finalWordSpans = [];
 var interimSpans = [];
 
 if (!('webkitSpeechRecognition' in window)) {
@@ -53,6 +54,7 @@ if (!('webkitSpeechRecognition' in window)) {
       var nlpObj = nlp.sentence(final_transcript);
       finalSplit = [];
       finalPos = [];
+      beatObj = [];
       for (var m = 0; m < nlpObj.terms.length; m++) {
         finalSplit.push(nlpObj.terms[m].text);
         if ('Noun' in nlpObj.terms[m].pos) {
@@ -62,6 +64,7 @@ if (!('webkitSpeechRecognition' in window)) {
         } else {
           finalPos.push('Other');
         }
+        beatObj.push([finalPos[m],finalSplit[m]]);
       }
 
       // console.log(nlpObj);
@@ -70,13 +73,25 @@ if (!('webkitSpeechRecognition' in window)) {
 
       finalSpans = [];
       for (var i = 0; i < finalSplit.length; i++) {
-        var span = document.createElement('span');
-        span.className = 'final';
-        span.innerHTML = finalSplit[i];
-        finalSpans.push(span);
-        results.insertBefore(span, divider);
+        // console.log(finalSplit[i]);
+        // console.log(finalPos[i]);
+        var split = finalSplit[i].split('');
+        for (var n = 0; n < split.length; n++) {
+          var span = document.createElement('span');
+          span.className = 'final ' + finalSplit[i];
+          span.innerHTML = split[n];
+          finalSpans.push(span);
+          results.insertBefore(span, divider);
+        }
+        var wordClass = document.getElementsByClassName('final ' + finalSplit[i]);
+        finalWordSpans.push(wordClass);
+        var space = document.createElement('span');
+        space.innerHTML = ' ';
+        finalSpans.push(space);
+        results.insertBefore(space, divider);
       }
-      genBeat(finalPos);
+      console.log(finalWordSpans);
+      genBeat(beatObj);
       newFinal = false;
     }
 
@@ -89,6 +104,7 @@ if (!('webkitSpeechRecognition' in window)) {
       interimSpans = [];
       // interimSplit = interim_transcript.split(' ');
       if (interim_transcript != '') {
+        // colorFinals = false;
         interimSplit = interim_transcript.trim().match(/(?=\S*['-])([a-zA-Z'-]+)|\w+|\W/g);
         for (var l = 0; l < interim_transcript.length; l++) {
           var span = document.createElement('span');
@@ -101,6 +117,8 @@ if (!('webkitSpeechRecognition' in window)) {
       } else {
         // pattern2.stop();
         // synth.triggerRelease(synth.now());
+        genNotes(final_transcript);
+        // colorFinals = true;
       }
       // console.log(interimSplit);
       // console.log(interimSpans);
