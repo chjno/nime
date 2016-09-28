@@ -90,7 +90,7 @@ if (!('webkitSpeechRecognition' in window)) {
         finalSpans.push(space);
         results.insertBefore(space, divider);
       }
-      console.log(finalWordSpans);
+      // console.log(finalWordSpans);
       genBeat(beatObj);
       newFinal = false;
     }

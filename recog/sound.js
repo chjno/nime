@@ -62,6 +62,7 @@ var array = [];
 
 function genBeat(array) {
   // console.log(array);
+  // resetColors();
   pattern.values = array;
   pattern.start();
 }
@@ -70,23 +71,14 @@ function colorClass(arr, index, color) {
   for (var i = 0; i < arr[index].length; i++) {
     arr[index][i].style.color = color;
   }
+}
 
-  if (index > 0) {
-    // console.log(arr[index - 1]);
-    // for (var j = 0; j < arr[index - 1].length; j++) {
-    //   arr[index - 1][i].style.color = 'black';
-    // }
+function resetColors() {
+  for (var i = 0; i < finalWordSpans.length; i++) {
+    for (var j = 0; j < finalWordSpans[i].length; j++) {
+      finalWordSpans[i][j].style.color = 'black';
+    }
   }
-
-  // if (index == 0) {
-  //   for (var j = 0; j < obj[obj.length - 1].length; j++) {
-  //     obj[index][i].style.color = 'black';
-  //   }  
-  // } else {
-  //   for (var j = 0; j < obj[index - 1].length; j++) {
-  //     obj[index][i].style.color = 'black';
-  //   }
-  // }
 }
 
 var pattern = new Tone.Pattern(function(time, note){
@@ -132,7 +124,6 @@ function genNotes(string) {
 
 var pattern2 = new Tone.Pattern(function(time, note){
   if (interimSpans.length > 0) {
-    // interimSpans[this.index].style.color = getRandomColor();
     interimSpans[this.index].style.color = 'red';
     if (this.index == 0) {
       interimSpans[interimSpans.length - 1].style.color = 'gray';
@@ -140,8 +131,6 @@ var pattern2 = new Tone.Pattern(function(time, note){
       interimSpans[this.index - 1].style.color = 'gray';
     }
   } else {
-    // console.log(finalSpans[this.index]);
-    // finalSpans[this.index].style.color = getRandomColor();
     finalSpans[this.index].style.color = 'red';
     if (this.index == 0) {
       finalSpans[finalSpans.length - 1].style.color = 'black';

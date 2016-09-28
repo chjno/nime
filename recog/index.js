@@ -23,7 +23,7 @@ io.on('connection', function(socket) {
 
   socket.on('new final', function(s) {
     var r1 = sentiment(s);
-    console.dir(r1);
+    // console.dir(r1);
     socket.emit('sentiment', r1);
   })
 
