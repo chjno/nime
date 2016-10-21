@@ -83,22 +83,22 @@ function resetColors() {
 
 var pattern = new Tone.Pattern(function(time, note){
   if (this.index == 0) {
-    colorClass(finalWordSpans, finalWordSpans.length - 1, 'black');
+    // colorClass(finalWordSpans, finalWordSpans.length - 1, 'black');
   } else {
-    colorClass(finalWordSpans, this.index - 1, 'black');
+    // colorClass(finalWordSpans, this.index - 1, 'black');
   }
   switch (note[0]) {
     case 'Noun':
       bass.start();
-      colorClass(finalWordSpans, this.index, 'cornflowerblue');
+      // colorClass(finalWordSpans, this.index, 'cornflowerblue');
       break;
     case 'Verb':
       tap.start();
-      colorClass(finalWordSpans, this.index, 'chartreuse');
+      // colorClass(finalWordSpans, this.index, 'chartreuse');
       break;
     case 'Other':
       hihat.start();
-      colorClass(finalWordSpans, this.index, 'orange');
+      // colorClass(finalWordSpans, this.index, 'orange');
       break;
   }
 }, array);

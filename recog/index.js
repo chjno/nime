@@ -15,19 +15,16 @@ http.listen(3000, function () {
   console.log('Example app listening on port 3000!');
 });
 
-// var r1 = sentiment('Cats are stupid.');
-// console.dir(r1);  
+// io.on('connection', function(socket) {
+//   console.log('user connected');
 
-io.on('connection', function(socket) {
-  console.log('user connected');
+//   socket.on('new final', function(s) {
+//     var r1 = sentiment(s);
+//     console.dir(r1);
+//     socket.emit('sentiment', r1);
+//   })
 
-  socket.on('new final', function(s) {
-    var r1 = sentiment(s);
-    // console.dir(r1);
-    socket.emit('sentiment', r1);
-  })
-
-  socket.on('disconnect', function() {
-    console.log('user disconnected');
-  });
-});
+//   socket.on('disconnect', function() {
+//     console.log('user disconnected');
+//   });
+// });

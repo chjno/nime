@@ -1,12 +1,8 @@
 var nlp = window.nlp_compromise
 
-
-
-
-
-socket.on('sentiment', function(obj) {
+// socket.on('sentiment', function(obj) {
   // console.log(obj);
-});
+// });
 
 var finalSpans = [];
 var finalWordSpans = [];
@@ -45,7 +41,7 @@ if (!('webkitSpeechRecognition' in window)) {
 
 
     if (newFinal) {
-      socket.emit('new final', final_transcript);
+      // socket.emit('new final', final_transcript);
 
       for (var j = 0; j < finalSpans.length; j++) {
         results.removeChild(finalSpans[j]);
@@ -73,22 +69,25 @@ if (!('webkitSpeechRecognition' in window)) {
 
       finalSpans = [];
       for (var i = 0; i < finalSplit.length; i++) {
-        // console.log(finalSplit[i]);
+        // console.log(finalSplit);
         // console.log(finalPos[i]);
-        var split = finalSplit[i].split('');
-        for (var n = 0; n < split.length; n++) {
-          var span = document.createElement('span');
-          span.className = 'final ' + finalSplit[i];
-          span.innerHTML = split[n];
-          finalSpans.push(span);
-          results.insertBefore(span, divider);
+        if (finalSplit[i] != '') {
+          var split = finalSplit[i].split('');
+          console.log(split);
+          for (var n = 0; n < split.length; n++) {
+            var span = document.createElement('span');
+            span.className = 'final ' + finalSplit[i];
+            span.innerHTML = split[n];
+            finalSpans.push(span);
+            results.insertBefore(span, divider);
+          }
+          var wordClass = document.getElementsByClassName('final ' + finalSplit[i]);
+          finalWordSpans.push(wordClass);
+          var space = document.createElement('span');
+          space.innerHTML = ' ';
+          finalSpans.push(space);
+          results.insertBefore(space, divider);
         }
-        var wordClass = document.getElementsByClassName('final ' + finalSplit[i]);
-        finalWordSpans.push(wordClass);
-        var space = document.createElement('span');
-        space.innerHTML = ' ';
-        finalSpans.push(space);
-        results.insertBefore(space, divider);
       }
       // console.log(finalWordSpans);
       genBeat(beatObj);
@@ -96,7 +95,7 @@ if (!('webkitSpeechRecognition' in window)) {
     }
 
     if (newInterim) {
-      socket.emit('new interim', interim_transcript);
+      // socket.emit('new interim', interim_transcript);
 
       for (var k = 0; k < interimSpans.length; k++) {
         results.removeChild(interimSpans[k]);
