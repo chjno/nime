@@ -8,16 +8,21 @@ import time
 CallStatus = 0
 
 # Here we define a set of call statuses that indicate a call has been either aborted or finished
-CallIsFinished = set ([Skype4Py.clsFailed, Skype4Py.clsFinished, Skype4Py.clsMissed, Skype4Py.clsRefused, Skype4Py.clsBusy, Skype4Py.clsCancelled]);
+CallIsFinished = set([Skype4Py.clsFailed, Skype4Py.clsFinished, Skype4Py.clsMissed, Skype4Py.clsRefused, Skype4Py.clsBusy, Skype4Py.clsCancelled])
+
 
 def AttachmentStatusText(status):
     return skype.Convert.AttachmentStatusToText(status)
 
+
 def CallStatusText(status):
     return skype.Convert.CallStatusToText(status)
 
+
 WavFile = ''
 OutFile = ''
+
+
 # This handler is fired when status of Call object has changed
 def OnCall(call, status):
     global CallStatus
@@ -26,26 +31,30 @@ def OnCall(call, status):
     CallStatus = status
     print 'Call status: ' + CallStatusText(status)
 
-    if (status == Skype4Py.clsEarlyMedia or status == Skype4Py.clsInProgress) and OutFile != '' :
+    if (status == Skype4Py.clsEarlyMedia or status == Skype4Py.clsInProgress) and OutFile != '':
         print ' recording ' + OutFile
-        call.OutputDevice( Skype4Py.callIoDeviceTypeFile ,OutFile )
-        OutFile=''
+        call.OutputDevice(Skype4Py.callIoDeviceTypeFile, OutFile)
+        OutFile = ''
 
-    if status == Skype4Py.clsInProgress and WavFile != '' :
+    if status == Skype4Py.clsInProgress and WavFile != '':
         print ' playing ' + WavFile
-        call.InputDevice( Skype4Py.callIoDeviceTypeFile ,WavFile )
+        call.InputDevice(Skype4Py.callIoDeviceTypeFile, WavFile)
+
 
 HasConnected = False
+
+
 def OnInputStatusChanged(call, status):
     global HasConnected
-    print 'InputStatusChanged: ',call.InputDevice(),call,status
-    print ' inputdevice: ',call.InputDevice()
+    print 'InputStatusChanged: ', call.InputDevice(), call, status
+    print ' inputdevice: ', call.InputDevice()
     # Hang up if finished
-    if status == True:
+    if status is True:
         HasConnected = True
-    if status == False and HasConnected == True:
+    if status is False and HasConnected is True:
         print ' play finished'
         call.Finish()
+
 
 # This handler is fired when Skype attatchment status changes
 def OnAttach(status):
