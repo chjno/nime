@@ -1,3 +1,5 @@
+# arch -i386 python call.py 202-762-1401
+
 #!python
 # ---------------------------------------------------------------------------------------------
 #  Python / Skype4Py example that takes a skypename or number from the commandline
