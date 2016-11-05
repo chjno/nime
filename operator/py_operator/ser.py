@@ -46,10 +46,8 @@ skype.Attach()
 
 ser = serial.Serial('/dev/tty.usbmodem1411', 9600)
 no = ''
-# listening = True
 
 while True:
-    # print ser.readline()
     # print ser.read()
     inByte = ser.read()
     print inByte
@@ -58,25 +56,19 @@ while True:
         no = ''
     else:
         no += inByte
-        
+
     print no
 
     if len(no) > 9:
-        # listening = False
         callno = '+1' + no
         print 'Calling ' + callno + '..'
         currentCall = skype.PlaceCall(callno)
         no = ''
 
-        # Loop until CallStatus gets one of "call terminated" values in OnCall handler
         while not CallStatus in CallIsFinished:
             inByte2 = ser.read()
-            print inByte2
+            # print inByte2
             if inByte2 == '.':
                 currentCall.Finish()
                 break
             pass
-
-# FIXME
-# don't pay attention to input while phone call is active
-# once "Call status: Finished" start listening for input again
