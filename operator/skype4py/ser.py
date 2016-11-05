@@ -32,52 +32,51 @@ def OnAttach(status):
     if status == Skype4Py.apiAttachAvailable:
         skype.Attach()
 
-# Let's see if we were started with a command line parameter..
-# try:
-#     CmdLine = '+1' + sys.argv[1]
-# except:
-#     print 'Missing command line parameter'
-#     sys.exit()
-
-# Creating Skype object and assigning event handlers..
 skype = Skype4Py.Skype()
 skype.OnAttachmentStatus = OnAttach
 skype.OnCallStatus = OnCall
 
-# Starting Skype if it's not running already..
 if not skype.Client.IsRunning:
     print 'Starting Skype..'
     skype.Client.Start()
 
-# Attatching to Skype..
 print 'Connecting to Skype..'
 skype.Attach()
 
-# Make the call
-# print 'Calling ' + CmdLine + '..'
-# skype.PlaceCall(CmdLine)
-
-
-no = ''
-listening = True
 
 ser = serial.Serial('/dev/tty.usbmodem1411', 9600)
-while listening:
+no = ''
+# listening = True
+
+while True:
     # print ser.readline()
     # print ser.read()
-    no += ser.read()
+    inByte = ser.read()
+    print inByte
+
+    if inByte == '.':
+        no = ''
+    else:
+        no += inByte
+        
     print no
 
     if len(no) > 9:
-        listening = False
+        # listening = False
         callno = '+1' + no
-        skype.PlaceCall(callno)
+        print 'Calling ' + callno + '..'
+        currentCall = skype.PlaceCall(callno)
+        no = ''
 
         # Loop until CallStatus gets one of "call terminated" values in OnCall handler
         while not CallStatus in CallIsFinished:
+            inByte2 = ser.read()
+            print inByte2
+            if inByte2 == '.':
+                currentCall.Finish()
+                break
             pass
 
-
-FIXME
+# FIXME
 # don't pay attention to input while phone call is active
 # once "Call status: Finished" start listening for input again
