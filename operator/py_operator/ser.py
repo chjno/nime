@@ -64,6 +64,7 @@ while True:
         print 'Calling ' + callno + '..'
         currentCall = skype.PlaceCall(callno)
         no = ''
+        ser.write('.')
 
         while not CallStatus in CallIsFinished:
             inByte2 = ser.read()
