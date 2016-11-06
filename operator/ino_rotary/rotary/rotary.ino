@@ -28,6 +28,10 @@ void loop() {
   
   hook();
   if (!onHook){
+    if (Serial.available()){
+      Serial.read();
+      lcd.clear();
+    }
     dial();
   }
 
