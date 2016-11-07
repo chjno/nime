@@ -1,8 +1,12 @@
 #include "S2S.h"
 
-S2S loop1(1,'L',8);
-S2S rec1(1,'R',12);
-S2S play1(1,'P',13);
+// 1 == record
+// 2 == play
+// 3 == loop
+
+S2S rec1(1,1,12);
+S2S play1(1,2,13);
+S2S loop1(1,3,8);
 
 void setup() {
   Serial.begin(9600);
