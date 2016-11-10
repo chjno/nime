@@ -1,5 +1,7 @@
-const int mux1 = 7;
-const int mux2 = 6;
+#include "Mux.h"
+
+Mux mux0(0,6);
+Mux mux1(1,7);
 
 const byte addresses[16] = {
   B00000000,  // 1
@@ -22,25 +24,14 @@ const byte addresses[16] = {
 
 void setup() {
   Serial.begin(9600);
-  DDRB = B00001111;
-  pinMode(mux1, INPUT);
+  DDRB = B00001111;   // address pins 8 9 10 11
 }
 
 void loop() {
   for (int i = 0; i < sizeof(addresses); i++){
     PORTB = addresses[i];
-    if (digitalRead(mux1) == HIGH){
-      Serial.print("PIN 0-");
-      Serial.print(String(i));
-      Serial.print(": ");
-      Serial.println(digitalRead(mux1));
-    }
-    if (digitalRead(mux2) == HIGH){
-      Serial.print("PIN 1-");
-      Serial.print(String(i));
-      Serial.print(": ");
-      Serial.println(digitalRead(mux2));
-    }
+    mux0.read(i);
+    mux1.read(i);
   }
 }
 
