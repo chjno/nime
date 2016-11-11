@@ -60,7 +60,7 @@ void dial(){
   }
 }
 
-bool hook(){
+void hook(){
   if (digitalRead(hookPin) == LOW){
     if (onHook){
       onHook = false;
