@@ -1,0 +1,10 @@
+channel, action, sample number
+
+channels
+  0-29: buttons/toggles
+  30-39: bandpass
+
+actions
+  1: record
+  2: trigger
+  3: loop
