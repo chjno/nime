@@ -5,11 +5,11 @@
 			"major" : 7,
 			"minor" : 3,
 			"revision" : 1,
-			"architecture" : "x64",
+			"architecture" : "x86",
 			"modernui" : 1
 		}
 ,
-		"rect" : [ 968.0, 1278.0, 615.0, 651.0 ],
+		"rect" : [ 968.0, 1279.0, 615.0, 651.0 ],
 		"bglocked" : 0,
 		"openinpresentation" : 1,
 		"default_fontsize" : 12.0,
@@ -70,7 +70,7 @@
 					"numinlets" : 1,
 					"numoutlets" : 1,
 					"outlettype" : [ "int" ],
-					"patching_rect" : [ 432.0, 75.0, 37.0, 22.0 ],
+					"patching_rect" : [ 432.0, 124.0, 37.0, 22.0 ],
 					"style" : "",
 					"text" : "t 127"
 				}
@@ -83,7 +83,7 @@
 					"numinlets" : 1,
 					"numoutlets" : 1,
 					"outlettype" : [ "int" ],
-					"patching_rect" : [ 384.0, 75.0, 24.0, 22.0 ],
+					"patching_rect" : [ 384.0, 124.0, 24.0, 22.0 ],
 					"style" : "",
 					"text" : "t 0"
 				}
@@ -284,7 +284,7 @@
 					"presentation" : 1,
 					"presentation_rect" : [ 55.0, 32.0, 59.0, 22.0 ],
 					"style" : "",
-					"text" : "sel #2 #3"
+					"text" : "sel #3 #4"
 				}
 
 			}
@@ -320,14 +320,15 @@
 				"box" : 				{
 					"id" : "obj-180",
 					"maxclass" : "newobj",
-					"numinlets" : 2,
-					"numoutlets" : 2,
-					"outlettype" : [ "bang", "" ],
-					"patching_rect" : [ 166.0, 117.0, 43.0, 22.0 ],
+					"numinlets" : 3,
+					"numoutlets" : 3,
+					"outlettype" : [ "bang", "bang", "" ],
+					"patching_rect" : [ 166.0, 87.0, 59.0, 22.0 ],
 					"presentation" : 1,
-					"presentation_rect" : [ 3.0, 32.0, 43.0, 22.0 ],
+					"presentation_linecount" : 2,
+					"presentation_rect" : [ 3.0, 32.0, 43.0, 35.0 ],
 					"style" : "",
-					"text" : "sel #1"
+					"text" : "sel #2 #1"
 				}
 
 			}
@@ -347,7 +348,7 @@
 					"destination" : [ "obj-180", 0 ],
 					"disabled" : 0,
 					"hidden" : 0,
-					"midpoints" : [ 17.5, 99.0, 175.5, 99.0 ],
+					"midpoints" : [ 17.5, 79.0, 175.5, 79.0 ],
 					"source" : [ "obj-1", 0 ]
 				}
 
@@ -534,6 +535,16 @@
 					"disabled" : 0,
 					"hidden" : 0,
 					"source" : [ "obj-180", 0 ]
+				}
+
+			}
+, 			{
+				"patchline" : 				{
+					"destination" : [ "obj-8", 0 ],
+					"disabled" : 0,
+					"hidden" : 0,
+					"midpoints" : [ 195.5, 116.0, 441.5, 116.0 ],
+					"source" : [ "obj-180", 1 ]
 				}
 
 			}
