@@ -1,0 +1,16 @@
+channels
+    1-30: buttons/toggles
+    31-40: normal
+    41-50: bandpass filter
+
+uno data
+    on/off, channel#
+
+    coll_uno_channels
+        mode, sample#
+
+    modes
+        record, trigger/adjust, loop
+
+mega data
+    sample#, effect#
