@@ -222,12 +222,12 @@
 				"box" : 				{
 					"id" : "obj-25",
 					"maxclass" : "newobj",
-					"numinlets" : 1,
+					"numinlets" : 0,
 					"numoutlets" : 1,
-					"outlettype" : [ "bang" ],
-					"patching_rect" : [ 820.0, 22.0, 60.0, 22.0 ],
+					"outlettype" : [ "" ],
+					"patching_rect" : [ 820.0, 22.0, 41.0, 22.0 ],
 					"style" : "",
-					"text" : "loadbang"
+					"text" : "r load"
 				}
 
 			}
