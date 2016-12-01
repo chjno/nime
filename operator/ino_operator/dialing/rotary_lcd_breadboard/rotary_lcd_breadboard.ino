@@ -39,7 +39,7 @@ void loop() {
 
 void dial(){
   if (millis() - lastTickTime > tickThresh && ticks > 0){
-    Serial.print(ticks);
+    Serial.println(ticks);
     lcd.print(ticks);
     ticks = 0;
   }
