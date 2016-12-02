@@ -2774,7 +2774,7 @@
 					"outlettype" : [ "" ],
 					"patching_rect" : [ 627.0, 79.0, 50.0, 22.0 ],
 					"style" : "",
-					"text" : "44"
+					"text" : "97"
 				}
 
 			}
@@ -4194,7 +4194,7 @@
 									"outlettype" : [ "" ],
 									"patching_rect" : [ 1200.25, 403.019806, 50.0, 22.0 ],
 									"style" : "",
-									"text" : "1 61"
+									"text" : "1 65"
 								}
 
 							}
@@ -4231,13 +4231,13 @@
 									"numinlets" : 1,
 									"numoutlets" : 4,
 									"outlettype" : [ "", "", "", "" ],
-									"patching_rect" : [ 1050.0, 115.052414, 131.0, 22.0 ],
+									"patching_rect" : [ 1050.0, 115.052414, 129.0, 22.0 ],
 									"saved_object_attributes" : 									{
 										"embed" : 0
 									}
 ,
 									"style" : "",
-									"text" : "coll coll_keytest_mega"
+									"text" : "coll coll_keytest_jacks"
 								}
 
 							}
@@ -4291,7 +4291,7 @@
 									"outlettype" : [ "" ],
 									"patching_rect" : [ 699.416626, 777.0, 84.0, 22.0 ],
 									"style" : "",
-									"text" : "1 61 65"
+									"text" : "1 65 41"
 								}
 
 							}
@@ -4344,7 +4344,7 @@
 									"outlettype" : [ "" ],
 									"patching_rect" : [ 720.0, 96.052414, 50.0, 22.0 ],
 									"style" : "",
-									"text" : "44"
+									"text" : "97"
 								}
 
 							}
@@ -4473,13 +4473,13 @@
 									"numinlets" : 1,
 									"numoutlets" : 4,
 									"outlettype" : [ "", "", "", "" ],
-									"patching_rect" : [ 912.25, 115.052414, 121.0, 22.0 ],
+									"patching_rect" : [ 912.25, 115.052414, 143.0, 22.0 ],
 									"saved_object_attributes" : 									{
 										"embed" : 0
 									}
 ,
 									"style" : "",
-									"text" : "coll coll_keytest_uno"
+									"text" : "coll coll_keytest_controls"
 								}
 
 							}
@@ -7235,13 +7235,13 @@
 				"implicit" : 1
 			}
 , 			{
-				"name" : "coll_keytest_uno",
+				"name" : "coll_keytest_controls",
 				"bootpath" : "~/github/nime/operator/max_operator",
 				"type" : "TEXT",
 				"implicit" : 1
 			}
 , 			{
-				"name" : "coll_keytest_mega",
+				"name" : "coll_keytest_jacks",
 				"bootpath" : "~/github/nime/operator/max_operator",
 				"type" : "TEXT",
 				"implicit" : 1
