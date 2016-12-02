@@ -3113,7 +3113,7 @@
 							"modernui" : 1
 						}
 ,
-						"rect" : [ 34.0, 78.0, 1852.0, 1087.0 ],
+						"rect" : [ 34.0, 79.0, 1852.0, 1087.0 ],
 						"bglocked" : 0,
 						"openinpresentation" : 0,
 						"default_fontsize" : 12.0,
@@ -3162,7 +3162,6 @@
 									"numoutlets" : 1,
 									"outlettype" : [ "" ],
 									"patching_rect" : [ 1035.0, 527.0, 34.0, 22.0 ],
-									"presentation_rect" : [ 1109.0, 519.0, 0.0, 0.0 ],
 									"style" : "",
 									"text" : "gate"
 								}
@@ -3215,7 +3214,6 @@
 									"numoutlets" : 1,
 									"outlettype" : [ "" ],
 									"patching_rect" : [ 566.5, 575.0, 34.0, 22.0 ],
-									"presentation_rect" : [ 394.5, 591.509888, 0.0, 0.0 ],
 									"style" : "",
 									"text" : "gate"
 								}
@@ -3255,7 +3253,6 @@
 									"numoutlets" : 2,
 									"outlettype" : [ "int", "int" ],
 									"patching_rect" : [ 1050.0, 437.0, 69.0, 22.0 ],
-									"presentation_rect" : [ 1042.0, 561.0, 0.0, 0.0 ],
 									"style" : "",
 									"text" : "unpack 0 0"
 								}
@@ -4207,7 +4204,7 @@
 									"outlettype" : [ "" ],
 									"patching_rect" : [ 1200.25, 403.019806, 50.0, 22.0 ],
 									"style" : "",
-									"text" : "101 1"
+									"text" : "1 31"
 								}
 
 							}
@@ -4262,7 +4259,7 @@
 									"numinlets" : 2,
 									"numoutlets" : 1,
 									"outlettype" : [ "" ],
-									"patching_rect" : [ 1293.0, 826.509888, 75.0, 35.0 ],
+									"patching_rect" : [ 512.0, 884.509888, 75.0, 35.0 ],
 									"style" : "",
 									"text" : ";\rplayback $1"
 								}
@@ -4276,7 +4273,7 @@
 									"numinlets" : 2,
 									"numoutlets" : 1,
 									"outlettype" : [ "" ],
-									"patching_rect" : [ 1260.0, 873.509888, 66.0, 35.0 ],
+									"patching_rect" : [ 479.0, 931.509888, 66.0, 35.0 ],
 									"style" : "",
 									"text" : ";\rvolume $1"
 								}
@@ -4304,7 +4301,7 @@
 									"outlettype" : [ "" ],
 									"patching_rect" : [ 699.416626, 777.0, 84.0, 22.0 ],
 									"style" : "",
-									"text" : "101 1 65"
+									"text" : "1 31 45"
 								}
 
 							}
