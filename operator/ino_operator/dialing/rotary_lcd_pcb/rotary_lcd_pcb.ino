@@ -1,82 +1,51 @@
 #include "LCD.h"
+#include "Phone.h"
 
-LCD lcd1(8, 9, 10, 11, 12, 13);
+//LCD lcd1(8, 9, 10, 11, 12, 13);
+LCD lcd[2] = {
+  LCD(8, 9, 10, 11, 12, 13),
+  LCD(A10, A11, A12, A13, A14, A15)
+};
 
-const int _rotaryPin = A0;
-const int _hookPin = A2;
-
-// on vars
-bool _plugged = false;
-
-// dial vars
-const int _tickChannel = 120;
-const int _tickThresh = 120;
-
-bool _ticked;
-int _ticks = 0;
-long _lastTickTime = 0;
-
+//Phone phone1(A0, A2);
+Phone phone[2] = {
+  Phone(100, A0, A2),
+  Phone(101, A1, A3)
+};
 
 
 void setup() {
   Serial.begin(9600);
-  pinMode(_rotaryPin, INPUT);
 }
 
 void loop() {
-  if (on()){
-    int num = dial();
-    if (num > 0){
+  
+  for (int i = 0; i < 2; i++){
+    
+    if (phone[i].on()){
+      int num = phone[i].dial();
+      if (num > 0){
+  
+        // send to twilio
 
-      // send to twilio
-      Serial.println(num);
-      lcd1.printNum(num);
-    }
-  } else {
-    lcd1.reset();
-  }
-}
-
-bool on(){
-  if (digitalRead(_hookPin) == LOW){
-    if (_plugged){
-      _plugged = false;
-      return false;
-    }
-  } else {
-    if (!_plugged){
-      _plugged = true;
-      return true;  
-    }
-  }
-}
-
-int dial(){
-  if (digitalRead(_rotaryPin) == LOW){
-    if (!_ticked){
-      _ticked = true;
-      _lastTickTime = millis();
-    }
-  } else {
-    if (_ticked){
-      _ticked = false;
-      if (millis() - _lastTickTime > 10){
-//        troubleshoot ticks
-//        Serial.println(millis() - lastTickTime);
-        _ticks++;
 
         // send to max
-        Serial.println(_tickChannel);
+        Serial.print(phone[i].channel);
+        Serial.print(' ');
+        Serial.println(num);
+        
+        if (num > 9){
+          lcd[i].printNum(0);
+        } else {
+          lcd[i].printNum(num);
+        }
       }
+      
+    } else {
+      lcd[i].reset();
     }
+    
   }
-
-  if (millis() - _lastTickTime > _tickThresh && _ticks > 0){
-    int ticks = _ticks;
-    _ticks = 0;
-    return ticks;
-  } else {
-    return 0;
-  }
+  
 }
 
