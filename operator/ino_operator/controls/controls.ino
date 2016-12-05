@@ -2,6 +2,7 @@
 #include "Phone.h"
 
 bool sent1[32];
+bool adjust = false;
 
 LCD lcd[2] = {
   LCD(8, 9, 10, 11, 12, 13),
@@ -12,7 +13,6 @@ Phone phone[2] = {
   Phone(100, A0, A2),
   Phone(101, A1, A3)
 };
-
 
 void setup() {
   Serial.begin(9600);
@@ -33,26 +33,68 @@ void loop() {
   for (int i = 0; i < 2; i++){
     
     if (phone[i].on()){
-      int num = phone[i].dial();
-      if (num > 0){
-  
-        // send to twilio
-
-
-        // send to max
+      if (phone[i].hung){
+        phone[i].hung = false;
         Serial.print(phone[i].channel);
         Serial.print(' ');
-        Serial.println(num);
+        Serial.println('[');
+      }
+      
+      int num = phone[i].dial();
+      if (adjust){
+        if (num > 0 && num < 11){
+          
+          // send adjusts to max
+          Serial.print(phone[i].channel);
+          Serial.print(' ');
+          Serial.println(num);
+        }
+      } else {
         
-        if (num > 9){
-          lcd[i].printNum(0);
-        } else {
-          lcd[i].printNum(num);
+        // send ticks to max
+        if (num == 120){
+          Serial.print("trig tick ");
+          Serial.println(num);
+          
+        } else if (num > 0){
+          
+          // send nums to twilio
+          Serial.print("twilio ");
+          Serial.println(num);
+
+          // print to LCD
+          if (num > 9){
+            lcd[i].printNum(0);
+          } else {
+            lcd[i].printNum(num);
+          }
         }
       }
       
     } else {
-      lcd[i].reset();
+      if (!phone[i].hung){
+        phone[i].hung = true;
+        Serial.print(phone[i].channel);
+        Serial.print(' ');
+        Serial.println(']');
+        
+        // hang up and reset
+        lcd[i].reset();
+  
+        // twilio hang up
+      }
+
+      if (adjust){
+        int num = phone[i].dial();
+        if (num > 0 && num < 11){
+          
+          // send adjusts to max
+          Serial.print(phone[i].channel);
+          Serial.print(' ');
+          Serial.println(num);
+        }
+      }
+      
     }
     
   }
@@ -60,8 +102,18 @@ void loop() {
 }
 
 void controlStates(){
+  
+  adjust = false;
+  
   for (int i = 0; i < 32; i++){
     if (digitalRead(i + 22) == HIGH){
+      
+      if (!adjust){
+        if (i == 1 || i == 3 || i == 5 || i == 7 || i == 9 || i == 11 || i == 13 || i == 15 || i == 17 || i == 19){
+          adjust = true;
+        }
+      }
+
       if (!sent1[i]){
         Serial.print('1');
         Serial.print(' ');
@@ -77,6 +129,8 @@ void controlStates(){
         sent1[i] = false;
       }
     }
+
+    
   }
 }
 
