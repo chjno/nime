@@ -1,11 +1,9 @@
-#include <LiquidCrystal.h>
+#include "LCD.h"
 
-LiquidCrystal lcd(8, 9, 10, 11, 12, 13);
+LCD lcd1(8, 9, 10, 11, 12, 13);
+
 const int _rotaryPin = A0;
 const int _hookPin = A2;
-
-// lcd vars
-int _lcdCounter = 0;
 
 // on vars
 bool _plugged = false;
@@ -23,8 +21,6 @@ long _lastTickTime = 0;
 void setup() {
   Serial.begin(9600);
   pinMode(_rotaryPin, INPUT);
-
-  lcd.begin(16, 2);
 }
 
 void loop() {
@@ -34,26 +30,11 @@ void loop() {
 
       // send to twilio
       Serial.println(num);
-      lcdDisplay(num); 
+      lcd1.printNum(num);
     }
   } else {
-    lcd.clear();
+    lcd1.reset();
   }
-}
-
-void lcdDisplay(int number){
-  if (_lcdCounter == 3 || _lcdCounter == 6){
-        lcd.print('-');
-      } else if (_lcdCounter == 10){
-        lcd.setCursor(0, 1);
-      } else if (_lcdCounter > 25){
-        lcd.setCursor(0, 1);
-        lcd.print("                ");
-        lcd.setCursor(0, 1);
-        _lcdCounter = 10;
-      }
-      lcd.print(number);
-      _lcdCounter++;
 }
 
 bool on(){
