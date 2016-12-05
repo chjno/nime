@@ -53,14 +53,14 @@ void loop() {
         
         // send ticks to max
         if (num == 120){
-          Serial.print("trig tick ");
+          // Serial.print("trig tick ");
           Serial.println(num);
           
         } else if (num > 0){
           
           // send nums to twilio
-          Serial.print("twilio ");
-          Serial.println(num);
+          // Serial.print("twilio ");
+          // Serial.println(num);
 
           // print to LCD
           if (num > 9){
