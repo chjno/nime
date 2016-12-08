@@ -19,41 +19,7 @@ const byte outputBytes[sampNo] = {
   B00000010
 };
 
-void poop(){
-  for (int i = 0; i < sampNo; i++){
-
-    if (i == 0){
-      digitalWrite(outputPins[sampNo - 1], LOW);
-    } else {
-      digitalWrite(outputPins[i - 1], LOW);
-    }
-    
-    digitalWrite(outputPins[i], HIGH);
-
-    bool plugged = false;
-
-    for (int j = 0; j < inputPinNo; j++){
-      
-      if (digitalRead(inputPins[j]) == HIGH){
-        plugged = true;
-        
-        if (!sent1[i]){
-          sent1[i] = true;
-          
-          Serial.print(i + 1);
-          Serial.print(' ');
-          Serial.println(j);
-        }
-      }
-    }
-    if (!plugged && sent1[i]){
-      sent1[i] = false;
-      Serial.print(i + 1);
-      Serial.print(' ');
-      Serial.println(200);
-    }
-  }
-}
+void(* resetFunc) (void) = 0;
 
 void setup() {
   Serial.begin(9600);
@@ -73,10 +39,13 @@ void setup() {
     sent1[j] = false;
   }
 
-  poop();
 }
 
 void loop() {
+
+  if (Serial.available() > 0){
+    resetFunc();
+  }
   
   for (int i = 0; i < sampNo; i++){
 
