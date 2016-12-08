@@ -1,6 +1,38 @@
+var socket = io();
+// socket.on('news', function(msg){console.log(msg);});
+
+var connection;
+
+socket.on('call', function(num){
+  console.log(num);
+  call(num);
+});
+socket.on('digit', function(num){
+  console.log(num);
+  connection.sendDigits(num);
+});
+socket.on('hangup', function(){
+  hangup();
+});
+
+var call = function (num) {
+  var params = {
+    To: num
+  };
+
+  console.log('Calling ' + params.To + '...');
+  Twilio.Device.connect(params);
+};
+
+var hangup = function () {
+  console.log('Hanging up...');
+  Twilio.Device.disconnectAll();
+};
+
 $(function () {
   console.log('Requesting Capability Token...');
   $.getJSON('/token').done(function (data) {
+
     console.log('Got a token.');
     console.log('Token: ' + data.token);
 
@@ -9,7 +41,7 @@ $(function () {
 
     Twilio.Device.ready(function (device) {
       console.log('Twilio.Device Ready!');
-      // document.getElementById('call-controls').style.display = 'block';
+      socket.emit('ready', true);
     });
 
     Twilio.Device.error(function (error) {
@@ -17,15 +49,14 @@ $(function () {
     });
 
     Twilio.Device.connect(function (conn) {
+      connection = conn;
+      socket.emit('inUse', true);
       console.log('Successfully established call!');
-      // document.getElementById('button-call').style.display = 'none';
-      // document.getElementById('button-hangup').style.display = 'inline';
     });
 
     Twilio.Device.disconnect(function (conn) {
+      socket.emit('inUse', false);
       console.log('Call ended.');
-      // document.getElementById('button-call').style.display = 'inline';
-      // document.getElementById('button-hangup').style.display = 'none';
     });
 
     Twilio.Device.incoming(function (conn) {
@@ -45,28 +76,4 @@ $(function () {
     console.log('Could not get a token from server!');
   });
 
-  // Bind button to make call
-  document.getElementById('button-call').onclick = function () {
-    // get the phone number to connect the call to
-    var params = {
-      To: document.getElementById('phone-number').value
-    };
-
-    console.log('Calling ' + params.To + '...');
-    Twilio.Device.connect(params);
-  };
-
-  // Bind button to hangup call
-  document.getElementById('button-hangup').onclick = function () {
-    console.log('Hanging up...');
-    Twilio.Device.disconnectAll();
-  };
-
 });
-
-// Activity log
-function console.log(message) {
-  var logDiv = document.getElementById('log');
-  logDiv.innerHTML += '<p>&gt;&nbsp;' + message + '</p>';
-  logDiv.scrollTop = logDiv.scrollHeight;
-}
