@@ -3,6 +3,8 @@
 
 bool sent1[32];
 bool adjust = false;
+const int adjustNo = 10;
+int adjustPins[adjustNo] = {1,3,5,7,9,11,13,15,17,19};
 
 LCD lcd[2] = {
   LCD(8, 9, 10, 11, 12, 13),
@@ -13,6 +15,8 @@ Phone phone[2] = {
   Phone(100, A0, A2),
   Phone(101, A1, A3)
 };
+
+void(* resetFunc) (void) = 0;
 
 void setup() {
   Serial.begin(9600);
@@ -27,6 +31,10 @@ void setup() {
 }
 
 void loop() {
+
+  if (Serial.available() > 0){
+    resetFunc();
+  }
 
   controlStates();
   
@@ -109,8 +117,11 @@ void controlStates(){
     if (digitalRead(i + 22) == HIGH){
       
       if (!adjust){
-        if (i == 1 || i == 3 || i == 5 || i == 7 || i == 9 || i == 11 || i == 13 || i == 15 || i == 17 || i == 19){
-          adjust = true;
+        for (int j = 0; j < adjustNo; j++){
+          if (i == adjustPins[j]){
+            adjust = true;
+            break;
+          }
         }
       }
 
