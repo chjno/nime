@@ -9,7 +9,7 @@ socket.on('call', function(num){
 });
 socket.on('digit', function(num){
   console.log(num);
-  connection.sendDigits(num);
+  connection.sendDigits(num.toString());
 });
 socket.on('hangup', function(){
   hangup();
@@ -30,6 +30,16 @@ var hangup = function () {
 };
 
 $(function () {
+
+  var isFirefox = typeof InstallTrigger !== 'undefined';
+  var isChrome = !!window.chrome && !!window.chrome.webstore;
+
+  if (isChrome){
+    socket.emit('browser', 'google chrome');
+  } else if (isFirefox){
+    socket.emit('browser', 'firefox');
+  }
+
   console.log('Requesting Capability Token...');
   $.getJSON('/token').done(function (data) {
 
