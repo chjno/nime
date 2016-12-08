@@ -47,20 +47,22 @@ void loop() {
           // send adjusts to max
           Serial.print(phone[i].channel);
           Serial.print(' ');
-          Serial.println(num);
+          Serial.println(num + 10);
         }
+
+      // not adjust
       } else {
         
         // send ticks to max
         if (num == 120){
-          // Serial.print("trig tick ");
           Serial.println(num);
-          
+
+        // send digits to twilio
         } else if (num > 0){
-          
-          // send nums to twilio
-          // Serial.print("twilio ");
-          // Serial.println(num);
+
+          Serial.print(phone[i].channel);
+          Serial.print(' ');
+          Serial.println(num);
 
           // print to LCD
           if (num > 9){
@@ -72,16 +74,14 @@ void loop() {
       }
       
     } else {
+
+      // hang up
       if (!phone[i].hung){
         phone[i].hung = true;
         Serial.print(phone[i].channel);
         Serial.print(' ');
         Serial.println(']');
-        
-        // hang up and reset
         lcd[i].reset();
-  
-        // twilio hang up
       }
 
       if (adjust){
@@ -91,7 +91,7 @@ void loop() {
           // send adjusts to max
           Serial.print(phone[i].channel);
           Serial.print(' ');
-          Serial.println(num);
+          Serial.println(num + 10);
         }
       }
       
