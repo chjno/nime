@@ -109,8 +109,45 @@ void loop() {
   
 }
 
+const int micNo = 2;
+const int micPins[micNo] = {};
+//const int micChannels[micNo] = {200, 201};
+//bool micSent1[2] = {false, false};
+const int micChannel = 200;
+bool micSent1 = false;
+
 void controlStates(){
-  
+
+  bool mic1 = false;
+//  bool mic2 = false;
+
+  for (int k = 0; k < 2; k++){
+    if (digitalRead(micPins[k]) == HIGH){
+      if (!micSent1){
+//      if (!micSent1[k]){
+//        Serial.print(micChannels[k]);
+        Serial.print(200);
+        Serial.print(' ');
+        Serial.println('1');
+//        micSent1[k] = true;
+        micSent1 = true;
+      }
+      mic1 = true;
+      return;
+    } else {
+      if (micSent1){
+//      if (!micSent1[k]){
+//        Serial.print(micChannels[k]);
+        Serial.print(200);
+        Serial.print(' ');
+        Serial.println('0');
+//        micSent1[k] = true;
+        micSent1 = false;
+      }
+    }
+  }
+
+
   adjust = false;
   
   for (int i = 0; i < 32; i++){
