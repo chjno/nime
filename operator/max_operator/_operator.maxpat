@@ -127,7 +127,7 @@
 									"outlettype" : [ "" ],
 									"patching_rect" : [ 241.0, 252.0, 50.0, 22.0 ],
 									"style" : "",
-									"text" : "3"
+									"text" : "10"
 								}
 
 							}
@@ -140,7 +140,7 @@
 									"outlettype" : [ "" ],
 									"patching_rect" : [ 510.0, 265.0, 50.0, 22.0 ],
 									"style" : "",
-									"text" : "3"
+									"text" : "10"
 								}
 
 							}
@@ -153,7 +153,7 @@
 									"outlettype" : [ "" ],
 									"patching_rect" : [ 510.0, 177.0, 50.0, 22.0 ],
 									"style" : "",
-									"text" : "55"
+									"text" : "40"
 								}
 
 							}
@@ -810,7 +810,7 @@
 					"outlettype" : [ "" ],
 					"patching_rect" : [ 828.5, 249.0, 78.0, 22.0 ],
 					"style" : "",
-					"text" : "pickup 2"
+					"text" : "hangup 2"
 				}
 
 			}
@@ -823,7 +823,7 @@
 					"outlettype" : [ "" ],
 					"patching_rect" : [ 715.5, 250.0, 86.0, 22.0 ],
 					"style" : "",
-					"text" : "pickup 1"
+					"text" : "hangup 1"
 				}
 
 			}
@@ -887,7 +887,7 @@
 					"outlettype" : [ "" ],
 					"patching_rect" : [ 779.0, 51.333313, 67.0, 22.0 ],
 					"style" : "",
-					"text" : "1 200 55"
+					"text" : "10 200 40"
 				}
 
 			}
@@ -900,7 +900,7 @@
 					"outlettype" : [ "" ],
 					"patching_rect" : [ 675.5, 51.333313, 73.0, 22.0 ],
 					"style" : "",
-					"text" : "2 rec 0"
+					"text" : "7 trig 0"
 				}
 
 			}
@@ -952,7 +952,7 @@
 					"outlettype" : [ "" ],
 					"patching_rect" : [ 677.5, 146.333313, 50.0, 22.0 ],
 					"style" : "",
-					"text" : "10"
+					"text" : "17"
 				}
 
 			}
@@ -2162,7 +2162,7 @@
 							"modernui" : 1
 						}
 ,
-						"rect" : [ 754.0, 237.0, 652.0, 783.0 ],
+						"rect" : [ 34.0, 79.0, 652.0, 783.0 ],
 						"bglocked" : 0,
 						"openinpresentation" : 0,
 						"default_fontsize" : 12.0,
@@ -5278,7 +5278,7 @@
 									"outlettype" : [ "" ],
 									"patching_rect" : [ 298.0, 423.012756, 46.0, 22.0 ],
 									"style" : "",
-									"text" : "0 22"
+									"text" : "100 ]"
 								}
 
 							}
@@ -5708,7 +5708,7 @@
 									"outlettype" : [ "" ],
 									"patching_rect" : [ 1030.0, 423.012756, 50.0, 22.0 ],
 									"style" : "",
-									"text" : "1 200"
+									"text" : "10 200"
 								}
 
 							}
