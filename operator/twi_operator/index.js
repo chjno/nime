@@ -9,74 +9,68 @@ var opn = require('opn');
 
 var phone1 = {
   ready: false,
-  id: '',
+  socketId: '',
+  identity: '',
   inUse: false,
   dialed: '',
   browser: 'google chrome'
 };
 var phone2 = {
   ready: false,
-  id: '',
+  socketId: '',
+  identity: '',
   inUse: false,
   dialed: '',
   browser: 'firefox'
 };
 
-// Create Express webapp
 var app = express();
 app.use(express.static(path.join(__dirname, '/')));
 app.use(bodyParser.urlencoded({ extended: false }));
 
-/*
-Generate a Capability Token for a Twilio Client user - it generates a random
-username for the client requesting a token.
-*/
+var identities = [];
 app.get('/token', function(request, response) {
-  var identity = randomUsername();
-  
+
+  identities.push(randomUsername());
+
   var capability = new twilio.Capability(config.TWILIO_ACCOUNT_SID,
     config.TWILIO_AUTH_TOKEN);
   capability.allowClientOutgoing(config.TWILIO_TWIML_APP_SID);
-  capability.allowClientIncoming(identity);
+  capability.allowClientIncoming(identities[identities.length - 1]);
   var token = capability.generate();
 
-  // Include identity and token in a JSON response
   response.send({
-    identity: identity,
+    identity: identities[identities.length - 1],
     token: token
   });
 });
 
 app.post('/voice', function (req, res) {
-  // Create TwiML response
-  var twiml = new twilio.TwimlResponse();
+
   var cid;
+  if (req.body.From == 'client:' + phone1.identity){
+    cid = config.TWILIO_CALLER_ID[0];
+  } else if (req.body.From == 'client:' + phone2.identity){
+    cid = config.TWILIO_CALLER_ID[1];
+  }
+
+  var twiml = new twilio.TwimlResponse();
 
   if(req.body.To) {
 
-    if (!phone1.inUse){
-      cid = config.TWILIO_CALLER_ID[0];
-      twiml.dial({ callerId: cid}, function() {
-        // wrap the phone number or client name in the appropriate TwiML verb
-        // by checking if the number given has only digits and format symbols
-        if (/^[\d\+\-\(\) ]+$/.test(req.body.To)) {
-          this.number(req.body.To);
+    twiml.dial({ callerId: cid}, function() {
+      if (req.body.From[0] == 'c'){
+        this.number(req.body.To);
+      } else {
+        if (!phone1.inUse){
+          this.client(phone1.identity);
+        } else if (!phone2.inUse){
+          this.client(phone2.identity);
         } else {
-          this.client(req.body.To);
+          twiml.say("All lines are busy. Please try again later.");
         }
-      });
-    } else if (!phone2.inUse){
-      cid = config.TWILIO_CALLER_ID[1];
-      twiml.dial({ callerId: cid}, function() {
-        // wrap the phone number or client name in the appropriate TwiML verb
-        // by checking if the number given has only digits and format symbols
-        if (/^[\d\+\-\(\) ]+$/.test(req.body.To)) {
-          this.number(req.body.To);
-        } else {
-          this.client(req.body.To);
-        }
-      });
-    }
+      }
+    });
 
   } else {
     twiml.say("Thanks for calling!");
@@ -86,13 +80,10 @@ app.post('/voice', function (req, res) {
   res.send(twiml.toString());
 });
 
-// Create http server and run it
 var server = http.createServer(app);
 var port = 3000;
 // var port = process.env.PORT || 3000;
 // server.listen(port, function() {
-
-
 
 
 
@@ -104,13 +95,13 @@ oscServer.on('pickup', function(msg, rinfo){
   // console.log(msg);
 
   if (msg[1] == 1){
-    io.to(phone1.id).emit('pickup');
-    console.log('pickup ' + phone1.id);
+    io.to(phone1.socketId).emit('pickup');
+    console.log('pickup ' + phone1.socketId);
     phone1.dialed = '';
     phone1.inUse = false;
   } else if (msg[1] == 2){
-    io.to(phone2.id).emit('pickup');
-    console.log('pickup ' + phone2.id);
+    io.to(phone2.socketId).emit('pickup');
+    console.log('pickup ' + phone2.socketId);
     phone1.dialed = '';
     phone2.inUse = false;
   }
@@ -120,13 +111,13 @@ oscServer.on('hangup', function(msg, rinfo){
   // console.log(msg);
 
   if (msg[1] == 1){
-    io.to(phone1.id).emit('hangup');
-    console.log('hangup ' + phone1.id);
+    io.to(phone1.socketId).emit('hangup');
+    console.log('hangup ' + phone1.socketId);
     phone1.dialed = '';
     phone1.inUse = false;
   } else if (msg[1] == 2){
-    io.to(phone2.id).emit('hangup');
-    console.log('hangup ' + phone2.id);
+    io.to(phone2.socketId).emit('hangup');
+    console.log('hangup ' + phone2.socketId);
     phone2.dialed = '';
     phone2.inUse = false;
   }
@@ -166,24 +157,28 @@ io.on('connection', function(socket){
 
   var thisPhone;
 
-  if (phone1.id === ''){
-    phone1.id = socket.id;
+  if (phone1.socketId === ''){
+    phone1.socketId = socket.id;
     thisPhone = phone1;
-  } else if (phone2.id === ''){
-    phone2.id = socket.id;
+  } else if (phone2.socketId === ''){
+    phone2.socketId = socket.id;
     thisPhone = phone2;
   } else {
     return;
   }
 
   // io.to(socket.id).emit('news', socket.id);
-  console.log('connected ');
-  console.log(thisPhone);
-  console.log('');
+  console.log('connected ' + socket.id);
+  console.log();
 
   socket.on('ready', function(msg){
+    if (thisPhone.identity === ''){
+      thisPhone.identity = identities.pop();
+    }
+
     thisPhone.ready = true;
-    console.log('ready ' + thisPhone.id);
+    console.log('ready');
+    console.log(thisPhone);
     console.log('');
   });
 
@@ -191,22 +186,26 @@ io.on('connection', function(socket){
     thisPhone.inUse = msg;
 
     if (msg){
-      console.log('call started ' + thisPhone.id);
+      console.log('call started ' + thisPhone.socketId);
     } else {
       thisPhone.inUse = false;
-      console.log('call ended ' + thisPhone.id);
+      console.log('call ended ' + thisPhone.socketId);
     }
     console.log('');
   });
 
+  // socket.on('incoming', function(msg){
+
+  // });
+
   socket.on('disconnect', function(){
-    if (phone1.id == socket.id){
-      phone1.id = '';
+    if (phone1.socketId == socket.id){
+      phone1.socketId = '';
       phone1.ready = false;
       phone1.inUse = false;
       phone1.dialed = '';
-    } else if (phone2.id == socket.id){
-      phone2.id = '';
+    } else if (phone2.socketId == socket.id){
+      phone2.socketId = '';
       phone2.ready = false;
       phone2.inUse = false;
       phone2.dialed = '';
@@ -223,5 +222,4 @@ server.listen(port, function() {
   console.log('Express server running on *:' + port);
 });
 
-opn('http://localhost:3000', {app: 'google chrome'});
-opn('http://localhost:3000', {app: 'firefox'});
+// opn('http://localhost:3000', {app: 'google chrome'});

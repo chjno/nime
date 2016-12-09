@@ -3,7 +3,7 @@ var socket = io();
 
 var connection;
 
-// var plugged = false;
+var plugged = false;
 
 socket.on('call', function(num){
   console.log(num);
@@ -15,11 +15,11 @@ socket.on('digit', function(num){
 });
 socket.on('pickup', function(msg){
   console.log('picked up');
-  // plugged = true;
+  plugged = true;
 });
 socket.on('hangup', function(){
   hangup();
-  // plugged = false;
+  plugged = false;
 });
 
 var call = function (num) {
@@ -76,16 +76,19 @@ $(function () {
       console.log('Call ended.');
     });
 
-    // Twilio.Device.incoming(function (conn) {
-    //   incoming = conn;
+    Twilio.Device.incoming(function (conn) {
+      incoming = conn;
       
-    //   console.log('Incoming connection from ' + conn.parameters.From);
-    //   if (!plugged){
-    //     socket.emit('incoming', conn.parameters.From);
-    //   }
+      console.log('Incoming connection from ' + conn.parameters.From);
+      // if (!plugged){
+      //   socket.emit('incoming', conn.parameters.From);
+      // } else {
+      //   conn.reject();
+      // }
 
-    //   // conn.accept();
-    // });
+      conn.accept();
+    });
+
   })
   .fail(function () {
     console.log('Could not get a token from server!');
