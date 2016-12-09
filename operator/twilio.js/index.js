@@ -100,6 +100,38 @@ var osc = require('node-osc');
 
 var oscServer = new osc.Server(3333, '127.0.0.1');
 
+oscServer.on('pickup', function(msg, rinfo){
+  // console.log(msg);
+
+  if (msg[1] == 1){
+    io.to(phone1.id).emit('pickup');
+    console.log('pickup ' + phone1.id);
+    phone1.dialed = '';
+    phone1.inUse = false;
+  } else if (msg[1] == 2){
+    io.to(phone2.id).emit('pickup');
+    console.log('pickup ' + phone2.id);
+    phone1.dialed = '';
+    phone2.inUse = false;
+  }
+});
+
+oscServer.on('hangup', function(msg, rinfo){
+  // console.log(msg);
+
+  if (msg[1] == 1){
+    io.to(phone1.id).emit('hangup');
+    console.log('hangup ' + phone1.id);
+    phone1.dialed = '';
+    phone1.inUse = false;
+  } else if (msg[1] == 2){
+    io.to(phone2.id).emit('hangup');
+    console.log('hangup ' + phone2.id);
+    phone2.dialed = '';
+    phone2.inUse = false;
+  }
+});
+
 oscServer.on('num', function(msg, rinfo){
   // console.log(msg);
 
@@ -110,8 +142,6 @@ oscServer.on('num', function(msg, rinfo){
   }
 
   var num = msg[2];
-
-
 
   if (!phone.inUse){
     phone.dialed += num;
@@ -125,20 +155,7 @@ oscServer.on('num', function(msg, rinfo){
   } else {
     io.to(phone.id).emit('digit', num);
   }
-});
 
-oscServer.on('hangup', function(msg, rinfo){
-  // console.log(msg);
-
-  if (msg[1] == 1){
-    io.to(phone1.id).emit('hangup');
-    phone1.dialed = '';
-    phone1.inUse = false;
-  } else if (msg[1] == 2){
-    io.to(phone2.id).emit('hangup');
-    phone1.dialed = '';
-    phone2.inUse = false;
-  }
 });
 
 var oscClient = new osc.Client('127.0.0.1', 3334);

@@ -3,6 +3,8 @@ var socket = io();
 
 var connection;
 
+// var plugged = false;
+
 socket.on('call', function(num){
   console.log(num);
   call(num);
@@ -11,8 +13,13 @@ socket.on('digit', function(num){
   console.log(num);
   connection.sendDigits(num.toString());
 });
+socket.on('pickup', function(msg){
+  console.log('picked up');
+  // plugged = true;
+});
 socket.on('hangup', function(){
   hangup();
+  // plugged = false;
 });
 
 var call = function (num) {
@@ -69,18 +76,16 @@ $(function () {
       console.log('Call ended.');
     });
 
-    Twilio.Device.incoming(function (conn) {
-      console.log('Incoming connection from ' + conn.parameters.From);
-      var archEnemyPhoneNumber = '+12099517118';
+    // Twilio.Device.incoming(function (conn) {
+    //   incoming = conn;
+      
+    //   console.log('Incoming connection from ' + conn.parameters.From);
+    //   if (!plugged){
+    //     socket.emit('incoming', conn.parameters.From);
+    //   }
 
-      if (conn.parameters.From === archEnemyPhoneNumber) {
-        conn.reject();
-        console.log('It\'s your nemesis. Rejected call.');
-      } else {
-        // accept the incoming connection and start two-way audio
-        conn.accept();
-      }
-    });
+    //   // conn.accept();
+    // });
   })
   .fail(function () {
     console.log('Could not get a token from server!');
