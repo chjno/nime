@@ -38,14 +38,14 @@ var hangup = function () {
 
 $(function () {
 
-  var isFirefox = typeof InstallTrigger !== 'undefined';
-  var isChrome = !!window.chrome && !!window.chrome.webstore;
+  // var isFirefox = typeof InstallTrigger !== 'undefined';
+  // var isChrome = !!window.chrome && !!window.chrome.webstore;
 
-  if (isChrome){
-    socket.emit('browser', 'google chrome');
-  } else if (isFirefox){
-    socket.emit('browser', 'firefox');
-  }
+  // if (isChrome){
+  //   socket.emit('browser', 'google chrome');
+  // } else if (isFirefox){
+  //   socket.emit('browser', 'firefox');
+  // }
 
   console.log('Requesting Capability Token...');
   $.getJSON('/token').done(function (data) {

@@ -13,7 +13,7 @@ var phone1 = {
   identity: '',
   inUse: false,
   dialed: '',
-  browser: 'google chrome'
+  // browser: 'google chrome'
 };
 var phone2 = {
   ready: false,
@@ -21,7 +21,7 @@ var phone2 = {
   identity: '',
   inUse: false,
   dialed: '',
-  browser: 'firefox'
+  // browser: 'firefox'
 };
 
 var app = express();
