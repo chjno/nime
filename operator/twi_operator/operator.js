@@ -65,7 +65,12 @@ $(function () {
     });
 
     Twilio.Device.error(function (error) {
-      console.log('Twilio.Device Error: ' + error.message);
+      console.log('Twilio.Device Error:');
+      console.log(error);
+      // JWT Token Expired
+      // if (error.code == 31205){
+        
+      // }
     });
 
     Twilio.Device.connect(function (conn) {
