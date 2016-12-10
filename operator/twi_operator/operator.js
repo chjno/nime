@@ -55,6 +55,9 @@ $(function () {
 
     // Setup Twilio.Device
     Twilio.Device.setup(data.token);
+    Twilio.Device.sounds.incoming(false);
+    Twilio.Device.sounds.outgoing(false);
+    Twilio.Device.sounds.disconnect(false);
 
     Twilio.Device.ready(function (device) {
       console.log('Twilio.Device Ready!');
