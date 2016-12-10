@@ -139,11 +139,13 @@ oscServer.on('num', function(msg, rinfo){
     console.log(phone.dialed);
 
     if (phone.dialed.length >= 10){
+      console.log('dial' + phone.dialed);
       io.to(phone.id).emit('call', phone.dialed);
       phone.inUse = true;
       phone.dialed = '';
     }
   } else {
+    console.log('digit' + num);
     io.to(phone.id).emit('digit', num);
   }
 

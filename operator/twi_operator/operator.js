@@ -1,3 +1,12 @@
+// var ring = new Audio('ring.wav');
+// var ringing = false;
+// ring.addEventListener('ended', function() {
+//   if (ringing){
+//     this.currentTime = 0;
+//     this.play();
+//   }
+// }, false);
+
 var socket = io();
 // socket.on('news', function(msg){console.log(msg);});
 
@@ -27,6 +36,8 @@ var call = function (num) {
     To: num
   };
 
+  // ringing = true;
+  // ring.play();
   console.log('Calling ' + params.To + '...');
   Twilio.Device.connect(params);
 };
@@ -55,6 +66,9 @@ $(function () {
 
     // Setup Twilio.Device
     Twilio.Device.setup(data.token);
+    Twilio.Device.sounds.incoming(false);
+    Twilio.Device.sounds.outgoing(false);
+    Twilio.Device.sounds.disconnect(false);
 
     Twilio.Device.ready(function (device) {
       console.log('Twilio.Device Ready!');
@@ -66,6 +80,8 @@ $(function () {
     });
 
     Twilio.Device.connect(function (conn) {
+      // ring.pause();
+      // ringing = false;
       connection = conn;
       socket.emit('inUse', true);
       console.log('Successfully established call!');
@@ -76,18 +92,32 @@ $(function () {
       console.log('Call ended.');
     });
 
-    Twilio.Device.incoming(function (conn) {
-      incoming = conn;
-      
-      console.log('Incoming connection from ' + conn.parameters.From);
-      // if (!plugged){
-      //   socket.emit('incoming', conn.parameters.From);
-      // } else {
-      //   conn.reject();
-      // }
+    // Twilio.Device.incoming(function (conn) {
+    //   incoming = conn;
+    //   ringing = true;
+    //   ring.play();
 
-      conn.accept();
-    });
+
+    //   var intervalCount = 0;
+    //   function acceptInbound(){
+    //     intervalCount++;
+    //     if (conn.status() == 'closed' || intervalCount == 100){
+    //       clearInterval(a);
+    //     } else if (plugged){
+    //       conn.accept();
+    //       clearInterval(a);
+    //     }
+    //   }
+      
+    //   console.log('Incoming connection from ' + conn.parameters.From);
+    //   if (!plugged){
+    //     socket.emit('incoming', conn.parameters.From);
+    //     var a = setInterval(acceptInbound, 100);
+
+    //   } else {
+    //     conn.reject();
+    //   }
+    // });
 
   })
   .fail(function () {
