@@ -1,8 +1,8 @@
 var socket = io();
 // socket.on('news', function(msg){console.log(msg);});
 
+var loadTime;
 var connection;
-
 var plugged = false;
 
 socket.on('call', function(num){
@@ -36,6 +36,10 @@ var hangup = function () {
   Twilio.Device.disconnectAll();
 };
 
+var timeElapsed = function(){
+  console.log('time elapsed: ' + (Date.now()-loadTime) / 1000 / 60);
+};
+
 $(function () {
 
   // var isFirefox = typeof InstallTrigger !== 'undefined';
@@ -46,6 +50,8 @@ $(function () {
   // } else if (isFirefox){
   //   socket.emit('browser', 'firefox');
   // }
+
+  loadTime = Date.now();
 
   console.log('Requesting Capability Token...');
   $.getJSON('/token').done(function (data) {
