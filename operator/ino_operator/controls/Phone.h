@@ -6,13 +6,13 @@ class Phone{
     bool on();
     int dial();
   private:
-    int _rotaryPin = A0;
-    int _hookPin = A2;
+    int _rotaryPin;
+    int _hookPin;
 
 //    bool _plugged = false;
 
     const int _tickChannel = 120;
-    const int _tickThresh = 150;
+    const int _tickThresh = 200;
     bool _ticked;
     int _ticks = 0;
     long _lastTickTime = 0;
@@ -52,7 +52,7 @@ int Phone::dial(){
       _ticked = false;
       if (millis() - _lastTickTime > 10){
 //        troubleshoot ticks
-//        Serial.println(millis() - lastTickTime);
+//        Serial.println(millis() - _lastTickTime);
         _ticks++;
 
         // send to max
