@@ -90,18 +90,18 @@ $(function () {
       console.log('Call ended.');
     });
 
-    Twilio.Device.incoming(function (conn) {
-      incoming = conn;
+    // Twilio.Device.incoming(function (conn) {
+    //   incoming = conn;
       
-      console.log('Incoming connection from ' + conn.parameters.From);
-      // if (!plugged){
-      //   socket.emit('incoming', conn.parameters.From);
-      // } else {
-      //   conn.reject();
-      // }
+    //   console.log('Incoming connection from ' + conn.parameters.From);
+    //   // if (!plugged){
+    //   //   socket.emit('incoming', conn.parameters.From);
+    //   // } else {
+    //   //   conn.reject();
+    //   // }
 
-      conn.accept();
-    });
+    //   conn.accept();
+    // });
 
   })
   .fail(function () {
