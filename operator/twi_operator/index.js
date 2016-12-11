@@ -222,4 +222,5 @@ server.listen(port, function() {
   console.log('Express server running on *:' + port);
 });
 
-// opn('http://localhost:3000', {app: 'google chrome'});
+opn('http://localhost:3000', {app: 'google chrome'});
+opn('http://localhost:3000', {app: 'google chrome'});
