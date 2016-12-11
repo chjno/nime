@@ -10,7 +10,7 @@
 		}
 ,
 		"rect" : [ 34.0, 79.0, 1372.0, 783.0 ],
-		"bglocked" : 0,
+		"bglocked" : 1,
 		"openinpresentation" : 1,
 		"default_fontsize" : 12.0,
 		"default_fontface" : 0,
@@ -943,7 +943,7 @@
 					"presentation" : 1,
 					"presentation_rect" : [ 199.676605, 272.333313, 31.0, 22.0 ],
 					"style" : "",
-					"text" : "127"
+					"text" : "135"
 				}
 
 			}
@@ -1067,7 +1067,7 @@
 									"outlettype" : [ "" ],
 									"patching_rect" : [ 241.0, 252.0, 50.0, 22.0 ],
 									"style" : "",
-									"text" : "6"
+									"text" : "5"
 								}
 
 							}
@@ -1080,7 +1080,7 @@
 									"outlettype" : [ "" ],
 									"patching_rect" : [ 510.0, 265.0, 50.0, 22.0 ],
 									"style" : "",
-									"text" : "6"
+									"text" : "5"
 								}
 
 							}
@@ -1093,7 +1093,7 @@
 									"outlettype" : [ "" ],
 									"patching_rect" : [ 510.0, 177.0, 50.0, 22.0 ],
 									"style" : "",
-									"text" : "31"
+									"text" : "65"
 								}
 
 							}
@@ -1750,7 +1750,7 @@
 					"outlettype" : [ "" ],
 					"patching_rect" : [ 410.5, 192.0, 78.0, 22.0 ],
 					"style" : "",
-					"text" : "hangup 2"
+					"text" : "num 2 1"
 				}
 
 			}
@@ -1827,7 +1827,7 @@
 					"outlettype" : [ "" ],
 					"patching_rect" : [ 258.5, 47.333313, 67.0, 22.0 ],
 					"style" : "",
-					"text" : "1 200 31"
+					"text" : "2 200 65"
 				}
 
 			}
@@ -1840,7 +1840,7 @@
 					"outlettype" : [ "" ],
 					"patching_rect" : [ 258.5, 120.0, 73.0, 22.0 ],
 					"style" : "",
-					"text" : "1 trig 0"
+					"text" : "3 loop 1"
 				}
 
 			}
@@ -6298,7 +6298,7 @@
 									"outlettype" : [ "" ],
 									"patching_rect" : [ 298.0, 423.012756, 46.0, 22.0 ],
 									"style" : "",
-									"text" : "0 1"
+									"text" : "101 1"
 								}
 
 							}
@@ -6712,7 +6712,7 @@
 									"outlettype" : [ "" ],
 									"patching_rect" : [ 1030.0, 423.012756, 50.0, 22.0 ],
 									"style" : "",
-									"text" : "1 200"
+									"text" : "2 200"
 								}
 
 							}
@@ -10951,7 +10951,7 @@
 					"mode" : 1,
 					"numinlets" : 1,
 					"numoutlets" : 0,
-					"patching_rect" : [ 22.75, 776.0, 526.0, 228.0 ],
+					"patching_rect" : [ 22.75, 774.0, 526.0, 228.0 ],
 					"proportion" : 0.39,
 					"style" : ""
 				}
