@@ -11,6 +11,7 @@ var phone1 = {
   ready: false,
   socketId: '',
   identity: '',
+  callerId: config.TWILIO_CALLER_ID[0],
   inUse: false,
   dialed: '',
   // browser: 'google chrome'
@@ -19,6 +20,7 @@ var phone2 = {
   ready: false,
   socketId: '',
   identity: '',
+  callerId: config.TWILIO_CALLER_ID[1],
   inUse: false,
   dialed: '',
   // browser: 'firefox'
@@ -37,7 +39,7 @@ app.get('/token', function(request, response) {
     config.TWILIO_AUTH_TOKEN);
   capability.allowClientOutgoing(config.TWILIO_TWIML_APP_SID);
   capability.allowClientIncoming(identities[identities.length - 1]);
-  var token = capability.generate();
+  var token = capability.generate(expires=36000);
 
   response.send({
     identity: identities[identities.length - 1],
@@ -46,12 +48,13 @@ app.get('/token', function(request, response) {
 });
 
 app.post('/voice', function (req, res) {
+  // console.log(req);
 
   var cid;
   if (req.body.From == 'client:' + phone1.identity){
-    cid = config.TWILIO_CALLER_ID[0];
+    cid = phone1.callerId;
   } else if (req.body.From == 'client:' + phone2.identity){
-    cid = config.TWILIO_CALLER_ID[1];
+    cid = phone2.callerId;
   }
 
   var twiml = new twilio.TwimlResponse();
@@ -59,17 +62,17 @@ app.post('/voice', function (req, res) {
   if(req.body.To) {
 
     twiml.dial({ callerId: cid}, function() {
-      if (req.body.From[0] == 'c'){
+      // if (req.body.From[0] == 'c'){
         this.number(req.body.To);
-      } else {
-        if (!phone1.inUse){
-          this.client(phone1.identity);
-        } else if (!phone2.inUse){
-          this.client(phone2.identity);
-        } else {
-          twiml.say("All lines are busy. Please try again later.");
-        }
-      }
+      // } else {
+      //   if (!phone1.inUse){
+      //     this.client(phone1.identity);
+      //   } else if (!phone2.inUse){
+      //     this.client(phone2.identity);
+      //   } else {
+      //     twiml.say("All lines are busy. Please try again later.");
+      //   }
+      // }
     });
 
   } else {
@@ -199,20 +202,15 @@ io.on('connection', function(socket){
   // });
 
   socket.on('disconnect', function(){
-    if (phone1.socketId == socket.id){
-      phone1.socketId = '';
-      phone1.ready = false;
-      phone1.inUse = false;
-      phone1.dialed = '';
-    } else if (phone2.socketId == socket.id){
-      phone2.socketId = '';
-      phone2.ready = false;
-      phone2.inUse = false;
-      phone2.dialed = '';
-    }
+
+    thisPhone.ready = false;
+    thisPhone.socketId = '';
+    thisPhone.identity = '';
+    thisPhone.inUse = false;
+    thisPhone.dialed = '';
+
     console.log('disconnected: ' + socket.id);
-    // FIXME
-    // opn('http://localhost:3000', {app: 'google chrome'});
+    opn('http://localhost:3000', {app: 'google chrome'});
   });
 });
 

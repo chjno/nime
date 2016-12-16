@@ -1,3 +1,7 @@
+var testDisconnect = function(){
+  socket.disconnect();
+};
+
 var socket = io();
 // socket.on('news', function(msg){console.log(msg);});
 
@@ -74,9 +78,9 @@ $(function () {
       console.log('Twilio.Device Error:');
       console.log(error);
       // JWT Token Expired
-      // if (error.code == 31205){
-        
-      // }
+      if (error.code == 31205){
+        socket.disconnect();
+      }
     });
 
     Twilio.Device.connect(function (conn) {
